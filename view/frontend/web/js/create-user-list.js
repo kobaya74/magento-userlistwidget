@@ -8,10 +8,10 @@ define(['jquery', 'mage/translate'], function ($) {
         class UserList {
             /**
              * Constructor to initialize configurations
-             * @param {Object} configImport - imported config from PHTML file
+             * @param {Object} config - imported config from PHTML file
              */
-            constructor(configImport) {
-                const { apiUrl, userList, submitButton } = configImport;
+            constructor(config) {
+                const { apiUrl, userList, submitButton } = config;
 
                 this.apiUrl = apiUrl;
                 this.userList = userList;
@@ -22,28 +22,39 @@ define(['jquery', 'mage/translate'], function ($) {
                 this.usersFetched = false;
             }
 
+            /**
+             * Static method that runs a class
+             * @param {Object} config - imported config from PHTML file
+             */
+            static create(config) {
+                const instance = new UserList(config);
+
+                instance.#init(); // Automatically initialize
+                return instance;
+            }
+
             /** Main initialization entry point */
-            init() {
-                this.addButtonClickListener();
+            #init() {
+                this.#addButtonClickListener();
             }
 
             /** Adds an event listener to the button */
-            addButtonClickListener() {
+            #addButtonClickListener() {
                 this.submitButtonEl.addEventListener('click', () =>
-                    this.onSubmitButtonClick()
+                    this.#onSubmitButtonClick()
                 );
             }
 
             /** Handles the submit button click */
-            async onSubmitButtonClick() {
+            async #onSubmitButtonClick() {
                 if (this.usersFetched) {
                     throw new Error('Users have already been added!');
                 }
-                await this.fetchAndRenderUsers();
+                await this.#fetchAndRenderUsers();
             }
 
             /** Creates a loader and attaches it to the DOM */
-            showLoader() {
+            #showLoader() {
                 const loader = document.createElement('div');
 
                 loader.classList.add('loader');
@@ -56,26 +67,26 @@ define(['jquery', 'mage/translate'], function ($) {
              * Hides the loader element
              * @param {HTMLElement} loader - loader element to remove
              */
-            hideLoader(loader) {
+            #hideLoader(loader) {
                 if (loader && loader.remove) {
                     loader.remove();
                 }
             }
 
             /** Handles API call and rendering */
-            async fetchAndRenderUsers() {
-                const loader = this.showLoader();
+            async #fetchAndRenderUsers() {
+                const loader = this.#showLoader();
 
                 try {
-                    const users = await this.fetchUsers();
+                    const users = await this.#fetchUsers();
 
                     if (users.length) {
-                        this.renderUserList(users);
+                        this.#renderUserList(users);
                     }
                 } catch (error) {
                     throw new Error(`Error fetching users: ${error.message}`);
                 } finally {
-                    this.hideLoader(loader);
+                    this.#hideLoader(loader);
                 }
             }
 
@@ -83,7 +94,7 @@ define(['jquery', 'mage/translate'], function ($) {
              * Fetches user data from the API
              * @returns {Promise<Object[]>} - array of user objects
              */
-            async fetchUsers() {
+            async #fetchUsers() {
                 const response = await fetch(this.apiUrl);
 
                 if (!response.ok) {
@@ -100,17 +111,17 @@ define(['jquery', 'mage/translate'], function ($) {
              * Renders the user list on the page
              * @param {Object[]} users - array of fetched user objects
              */
-            renderUserList(users) {
+            #renderUserList(users) {
                 const usersFragment = document.createDocumentFragment();
 
                 users.forEach((user) => {
-                    const userEl = this.createUserElement(user);
+                    const userEl = this.#createUserElement(user);
 
                     usersFragment.appendChild(userEl);
                 });
 
                 this.userListEl.appendChild(usersFragment);
-                this.disableSubmitButton();
+                this.#disableSubmitButton();
             }
 
             /**
@@ -118,7 +129,7 @@ define(['jquery', 'mage/translate'], function ($) {
              * @param {Object} user - user object containing details
              * @returns {HTMLElement} - formatted user list item
              */
-            createUserElement(user) {
+            #createUserElement(user) {
                 const {
                     avatar,
                     first_name: firstName,
@@ -137,15 +148,13 @@ define(['jquery', 'mage/translate'], function ($) {
             }
 
             /** Disables the submit button after fetching users */
-            disableSubmitButton() {
+            #disableSubmitButton() {
                 this.submitButtonEl.disabled = true;
                 this.usersFetched = true;
             }
         }
 
         // Create and initialize the user list
-        const userList = new UserList(config);
-
-        userList.init();
+        UserList.create(config);
     };
 });
