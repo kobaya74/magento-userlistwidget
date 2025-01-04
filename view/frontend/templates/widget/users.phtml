@@ -1,0 +1,37 @@
+<?php
+/**
+ * @var Escaper $escaper
+ * @var Template $block
+ */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+$helper = $this->helper('Alex74\UserListWidget\Helper\Data');
+$apiUrlConfig = $helper->getApiUrl();
+$apiUrlWidget = $block->getData('api_url');
+$isEnabled = $helper->isEnabled();
+$apiUrl = $apiUrlWidget ?? $apiUrlConfig;
+?>
+
+<?php if($apiUrl && $isEnabled): ?>
+    <div class="user-list">
+        <h3 class="widget-title"><?= $escaper->escapeHtml($block->getData('title')) ?></h3>
+        <button class="action submit primary js-fetch-users">
+            <?= $escaper->escapeHtml(__('Add users list')); ?>
+        </button>
+        <ul class="users"></ul>
+    </div>
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        ".user-list": {
+            "createUserList": {
+                "apiUrl": <?= json_encode($apiUrl) ?>,
+                "userList": <?= json_encode('.users') ?>,
+                "submitButton": <?= json_encode('.js-fetch-users') ?>
+            }
+        }
+    }
+</script>

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:users:Magento_Widget:etc/widget.xsd">
+	<widget class="Alex74\UserListWidget\Block\Widget\Users" id="alex74_user_list_widget">
+		<label>Alex74 - User list widget</label>
+		<description>Users</description>
+		<parameters>
+			<parameter name="title" xsi:type="text" visible="true" sort_order="10">
+				<label>Widget Title</label>
+			</parameter>
+            <parameter name="api_url" sort_order="20" visible="true" xsi:type="text">
+                <label>API for users data</label>
+            </parameter>
+		</parameters>
+	</widget>
+</widgets>

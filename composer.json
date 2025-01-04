@@ -1,0 +1,29 @@
+{
+    "name": "alex74/module-userlistwidget",
+    "description": "User list from API",
+    "require": {
+        "php": ">=7.4",
+        "magento/framework": "*",
+        "magento/magento-composer-installer": "*"
+    },
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Aleksandar Milicevic",
+            "email": "alex@alexmilicevic.me"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Alex74\\UserListWidget\\": ""
+        }
+    }
+}

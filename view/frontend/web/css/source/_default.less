@@ -1,0 +1,89 @@
+// Media common for all screens
+& when (@media-common = true) {
+    .user-list {
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+
+        .users {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            margin: 2rem 0 0;
+            padding: 1rem 0;
+            width: 100%;
+
+            .user {
+                .lib-css(box-shadow, 0 0 .5rem @user-border-color);
+                .lib-css(transition, box-shadow 500ms);
+                border-radius: 1rem;
+                display: block;
+                flex-basis: 13rem;
+                margin: 0 1rem 2rem 1rem;
+                padding: 1rem;
+                &:hover {
+                    .lib-css(box-shadow, 0 0 .8rem );
+                    .avatar {
+                        .lib-css(transform, scale(1.05));
+                    }
+                }
+            }
+        }
+
+        .avatar {
+            .lib-css(transition, transform 500ms);
+            border-radius: 1rem;
+            display: block;
+            margin: 0 auto 1rem;
+            max-width: 13rem;
+        }
+
+        .mail {
+            color: @mail-text-color;
+        }
+
+        .name {
+            color: @name-text-color;
+            font-weight: @font-weight__semibold;
+        }
+
+        .widget-title {
+            .lib-font-size(26);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .js-fetch-users {
+            .lib-button-l();
+            .lib-font-size(22);
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+            text-align: center;
+            width: 100%;
+            z-index: 9999;
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            height: 4rem;
+            border: .4rem solid rgba(0, 0, 0, 0.1);
+            border-top: .4rem solid lighten(@color-black, 50%);
+            border-radius: 50%;
+            width: 4rem;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+}
