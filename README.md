@@ -10,6 +10,7 @@
 Alex74 UserListWidget is a Magento 2 widget.
 
 ## Installation
+
 ### Type 1: Zip file
 
  - Unzip the zip file somewhere on local machine.
@@ -19,7 +20,7 @@ Alex74 UserListWidget is a Magento 2 widget.
  - Apply database updates by running `php bin/magento setup:upgrade`\*
  - Flush the cache by running `php bin/magento cache:flush`
 
-### Type 2: Composer (not available at the moment)
+### Type 2: Composer
 
  - Install the module composer by running `composer require alex74/module-userlistwidget`
  - enable the module by running `php bin/magento module:enable Alex74_UserListWidget`
